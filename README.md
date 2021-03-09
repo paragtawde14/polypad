@@ -5,10 +5,16 @@
 Our JavaScript API allows you to add interactive Polypad canvases to any website. You simply need to include our JS source file, create a parent element for Polypad, and then call `Polypad.create()`:
 
 ```html
-<script src="https://static.mathigon.org/api/polypad-v1.0.js"></script>
+<script src="https://static.mathigon.org/api/polypad-v1.1.js"></script>
 <div id="polypad" style="width: 800px; height: 500px;"></div>
 <script>Polypad.create(document.querySelector('#polypad'))</script>
 ```
+
+Polypad requires [Custom Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) and the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API). If you want to use browsers that don't support these APIs, you have to include a polyfill, e.g. [mathigon.org/polyfill.js](https://mathigon.org/polyfill.js).
+
+Our goal is to support the latest version of Chrome, Firefox, Opera and Edge on all mobile and desktop devices.
+
+Note: the `polypad-v1.1.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
 
 
 ## JSON Schema
@@ -54,24 +60,42 @@ same page, you might see performance issues on some devices.
 
 Polypad supports a large number of different tile types.
 
-| Tile            | Name             | Options String |
-| --------------- | ---------------- | -------------- |
-| Polygons        | `polygon`        | Either a named polygon like `square`, `reg-hexagon` or `kite`, or a string of vertex coordinates, e.g. `0 0,1 0,1 1,0 1`|
-| Custom Polygons | `custom-polygon` | _Same as for Polygon_ |
-| Polyominoes     | `pentomino`      | Index from `0` to `11` for pentominoes and `12` to `16` for tetrominoes |
-| Tangram         | `tangram`        | Index from `0` to `6` |
-| Tangram Egg     | `egg`            | Index from `0` to `8` |
-| Ruler           | `ruler`          | Width, e.g. `400` |
-| Protractor      | `protractor`     | Width, e.g. `200` |
-| Penrose Tiles   | `penrose`        | Either `0` or `1` |
-| Penrose Nature  | `garden`         | Index from `0` to `7` |
-| Kolam Tiles     | `kolam`          | Index from `0` to `5` |
-| Fractals        | `fractal`        | Index from `0` (large) to `4` (small) |
-| Tantrix Tiles   | `tantrix`        | Index from `0` to `13` |
-| Number Tiles    | `number-tile`    | `${width}:${count}`, e.g. `10:100` for a 10x10 block of tiles |
-| Number Bars     | `number-bar`     | Width from `1` to `10` |
-
-TODO: Documentation for other tile types (`fraction-bar`, `fraction-circle`, `text`, `algebra-tile`, `grid`, `image`, `dice`, `coin`, `number-line`, `penrose`, `prime-disk`, `balance`, `decimal-grid`, `spinner`, `custom-spinner`, `token`, `geo`, `dot-machine`, `dot`, `axes`, `question-blank`, `equation`, `number-card`)
+| Tile             | Name             | Options String |
+| ---------------- | ---------------- | -------------- |
+| Polygons         | `polygon`        | Either a named polygon like `square`, `reg-hexagon` or `kite`, or a string of vertex coordinates, e.g. `0 0,1 0,1 1,0 1`|
+| Custom Polygons  | `custom-polygon` | _Same as for Polygon_ |
+| Polyominoes      | `pentomino`      | Index from `0` to `11` for pentominoes and `12` to `16` for tetrominoes |
+| Tangram          | `tangram`        | Index from `0` to `6` |
+| Tangram Egg      | `egg`            | Index from `0` to `8` |
+| Ruler            | `ruler`          | Width, e.g. `400` |
+| Protractor       | `protractor`     | Width, e.g. `200` |
+| Penrose Tiles    | `penrose`        | Either `0` or `1` |
+| Penrose Nature   | `garden`         | Index from `0` to `7` |
+| Kolam Tiles      | `kolam`          | Index from `0` to `5` |
+| Fractals         | `fractal`        | Index from `0` (large) to `4` (small) |
+| Tantrix Tiles    | `tantrix`        | Index from `0` to `13` |
+| Number Tiles     | `number-tile`    | `${width}:${count}`, e.g. `10:100` for a 10x10 block of tiles |
+| Number Bars      | `number-bar`     | Width from `1` to `10` |
+| Number Line      | `number-line`    | TODO… |
+| Prime Circle     | `prime-disk`     | TODO… |
+| Number Card      | `number-card`    | TODO… |
+| Decimal Grid     | `decimal-grid`   | TODO… |
+| Dot Machine      | `dot-machine`    | TODO… |
+| Exploding Dot    | `dot`            | TODO… |
+| Fraction Bars    | `fraction-bar`   | TODO… |
+| Fraction Circles | `fraction-circle`| TODO… |
+| Algebra Tiles    | `algebra-tile`   | TODO… |
+| Algebra Grid     | `grid`           | TODO… |
+| Balance Scale    | `balance`        | TODO… |
+| Balance Tokens   | `token`          | TODO… |
+| Coordinate Axes  | `axes`           | TODO… |
+| Dice             | `dice`           | TODO… |
+| Coin             | `coin`           | TODO… |
+| Spinner          | `spinner`        | TODO… |
+| Custom Spinner   | `custom-spinner` | TODO… |
+| Image            | `image`          | TODO… |
+| Text             | `text`           | TODO… |
+| Geometry         | `geo`            | TODO… |
 
 
 ## Methods
@@ -120,9 +144,6 @@ interface PolypadInstance {
   // Get the current user selection, or programmatically select multiple existing tiles.
   getSelection: () => string[];
   selectTiles: (...tileIds: string[]) => void;
-
-  // Set the colour scheme of the canvas.
-  setTheme: (theme: 'light'|'dark') => void;
 }
 ```
 
@@ -132,27 +153,18 @@ interface PolypadInstance {
 Using the `.on()` and `.off()` methods on `PolypadInstance`, you can bind and unbind many different
 event listeners. The following events are supported:
 
-| Name          | Callback Options    | Description |
-| ------------- | ------------------- | --------------------------------------------- |
-| `add-tile`    | `{id: string}`      | Triggered whenever a user creates a new tile. |
-| `add-stroke`  | `{id: string}`      | Triggered whenever a user draws a new stroke. |
-| `change`      | `undefined`         | Triggered whenever the canvas changes.        |
-| `select`      | `{ids: string[]}`   | Triggered whenever the selection changes.     |
-
-TODO: Documentation for other events
+| Name          | Callback Options     | Description |
+| ------------- | -------------------- | --------------------------------------------- |
+| `add-tile`    | `{data: TileData}`   | Triggered whenever a user creates a new tile. |
+| `add-stroke`  | `{data: StrokeData}` | Triggered whenever a user draws a new stroke. |
+| `change`      |                      | Triggered whenever the canvas changes.        |
 
 
-## Requirements and Global Namespace Pollution
+## Future Features
 
-Including the Polypad API JS file creates a global `window.Polypad` variable and registers the `x-polypad`, `x-polypad-sidebar`, `x-polypad-toolbar` and `x-polypad-settings` custom HTML elements.
-
-Polypad requires [Custom Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) and the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API). If you want to use browsers that don't support these APIs, you have to include a polyfill, e.g. [mathigon.org/polyfill.js](https://mathigon.org/polyfill.js).
-
-Our goal is to support the latest version of Chrome, Firefox, Opera and Edge on all mobile and desktop devices.
-
-
-## Known Issues
-
-* [ ] Add templates for other languages
+* [ ] Pass diff data with `change` event
 * [ ] Expose additional, internal methods and events
-* [ ] Customise which items to show in the sidebar, toolbar and settings menu
+* [ ] Switch colour scheme (light/dark)
+* [ ] Customisation options for which items to show in the sidebar, toolbar and settings menu
+* [ ] Add templates for other languages
+* [ ] Support including the script in the `<head>`. Currently, it accesses `document.body`, so it needs to be included in the `<body>`.
