@@ -7,7 +7,7 @@ Our JavaScript API allows you to add interactive Polypad canvases to any website
 ```html
 <script src="https://static.mathigon.org/api/polypad-v1.3.js"></script>
 <div id="polypad" style="width: 800px; height: 500px;"></div>
-<script>Polypad.create(document.querySelector('#polypad', {apiKey: 'test'}))</script>
+<script>Polypad.create(document.querySelector('#polypad'), {apiKey: 'test'})</script>
 ```
 
 Polypad requires [Custom Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) and the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API). If you want to use browsers that don't support these APIs, you have to include a polyfill, e.g. [mathigon.org/polyfill.js](https://mathigon.org/polyfill.js).
