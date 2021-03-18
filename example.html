@@ -7,11 +7,11 @@
 <body>
   <h1>Polypad API Demo</h1>
   <div id="polypad" style="width: 800px; height: 600px;"></div>
-  <script src="polypad-v1.1.js"></script>
+  <script src="polypad-v1.3.js"></script>
   <script>
     (async function() {
-      const polypad = await Polypad.create(document.getElementById('polypad'));
-      polypad.on('add-tile', e => console.log(e));
+      const polypad = await Polypad.create(document.getElementById('polypad'), {apiKey: 'test'});
+      polypad.on('change', e => console.log(e));
     })();
   </script>
 </body>
