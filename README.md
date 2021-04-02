@@ -5,7 +5,7 @@
 Our JavaScript API allows you to add interactive Polypad canvases to any website. You simply need to include our JS source file, create a parent element for Polypad, and then call `Polypad.create()`:
 
 ```html
-<script src="https://static.mathigon.org/api/polypad-v1.3.js"></script>
+<script src="https://static.mathigon.org/api/polypad-v1.4.js"></script>
 <div id="polypad" style="width: 800px; height: 500px;"></div>
 <script>Polypad.create(document.querySelector('#polypad'), {apiKey: 'test'})</script>
 ```
@@ -14,7 +14,7 @@ Polypad requires [Custom Web Components](https://developer.mozilla.org/en-US/doc
 
 Our goal is to support the latest version of Chrome, Firefox, Opera and Edge on all mobile and desktop devices.
 
-Note: the `polypad-v1.3.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
+Note: the `polypad-v1.4.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
 
 
 ## JSON Schema
@@ -196,6 +196,7 @@ Polypad supports a large number of different tile types.
 | Number Card      | `number-card`    | TODO… |
 | Decimal Grid     | `decimal-grid`   | TODO… |
 | Dot Machine      | `dot-machine`    | TODO… |
+| Abacus           | `abacus`         | TODO… |
 | Exploding Dot    | `dot`            | TODO… |
 | Fraction Bars    | `fraction-bar`   | TODO… |
 | Fraction Circles | `fraction-circle`| TODO… |
@@ -210,6 +211,7 @@ Polypad supports a large number of different tile types.
 | Custom Spinner   | `custom-spinner` | TODO… |
 | Image            | `image`          | The URL of the image, which should be returned by the `imageUpload()` config function. |
 | Text             | `text`           | The text body of the string |
+| Equation         | `equation`       | The ASCII-Math expressions |
 | Geometry         | `geo`            | A geometric expression, e.g. `a=point(10,20)` or `c=segment(a,b)` |
 
 
