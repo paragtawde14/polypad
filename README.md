@@ -5,7 +5,7 @@
 Our JavaScript API allows you to add interactive Polypad canvases to any website. You simply need to include our JS source file, create a parent element for Polypad, and then call `Polypad.create()`:
 
 ```html
-<script src="https://static.mathigon.org/api/polypad-v1.4.js"></script>
+<script src="https://static.mathigon.org/api/polypad-v1.5.js"></script>
 <div id="polypad" style="width: 800px; height: 500px;"></div>
 <script>Polypad.create(document.querySelector('#polypad'), {apiKey: 'test'})</script>
 ```
@@ -14,7 +14,7 @@ Polypad requires [Custom Web Components](https://developer.mozilla.org/en-US/doc
 
 Our goal is to support the latest version of Chrome, Firefox, Opera and Edge on all mobile and desktop devices.
 
-Note: the `polypad-v1.4.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
+Note: the `polypad-v1.5.js` script needs to be included in the `<body>`, not the `<head>` of your HTML document.
 
 
 ## JSON Schema
@@ -75,6 +75,9 @@ interface Polypad {
 
     // Override the default theme colours 'red', 'blue', 'green', ...
     themeColours?: Record<string, string>;
+
+    // Whether to prevent panning and zooming of the canvas using touch gestures.
+    noPanAndZoom?: boolean;
 
     // Whether to bind keyboard events for undo/redo and cut/copy/paste. Default is false.
     bindKeyboardEvents?: boolean;
@@ -164,9 +167,8 @@ __Callback Options__: `{grid: GridType}`
 
 ### `.on('move')`
 
-This event is triggered continuously while users are moving one or more tiles. It is throttled to be
-triggered at most once per second. The Callback argument contains the ID and the current position of
-all currently selected tiles.
+This event is triggered continuously while users are moving one or more tiles. The Callback argument
+contains the ID and the current position of all currently selected tiles.
 
 __Callback Options__: `{tiles: {id: string, x: number, y: number}[]}`
 
