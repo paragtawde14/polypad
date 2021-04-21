@@ -1,5 +1,27 @@
 # Polypad Changelog
 
+## v1.6
+
+### New Features
+
+* Return full stroke data in `change` events (no more max-length). Add options for max number of tiles, strokes and stroke length in `.serialize()` method.
+* Add `.preventDefault()` to `undo` and `redo` events.
+* New `options` event for the alternate colours and number labels settings, as well as a `.setOptions()` method to change these values programatically.
+* New `.toggleSidebar()` method to expand or collapse the sidebar.
+* New `.addCustomButton()` method to create custom toolbar or settings bar buttons.
+* Paste images directly from the clipboard onto the canvas.
+
+### Fixes
+
+* Don't delete tiles when clicking backspace inside an input field (e.g. the number line or exploding dots settings fields).
+* Trigger correct event (`added`, not `changed`) when creating text or equation tiles.
+* Fix bugs when changing the number of exploding dots machine boxes.
+* Correctly center pasted tiles on the canvas, even when the sidebar is open.
+* Fix some bugs when pressing escape or shift keys while dragging tiles.
+* Fix erasing and positioning of fraction circle tiles.
+* Fix change event data for Abacus tile and equation boxes
+
+
 ## v1.5
 
 ### Breaking Changes

@@ -7,11 +7,26 @@
 <body>
   <h1>Polypad API Demo</h1>
   <div id="polypad" style="width: 800px; height: 600px;"></div>
-  <script src="https://static.mathigon.org/api/polypad-v1.5.js"></script>
+  <script src="https://static.mathigon.org/api/polypad-v1.6.js"></script>
   <script>
     (async function() {
-      const polypad = await Polypad.create(document.getElementById('polypad'), {apiKey: 'test'});
-      polypad.on('change', e => console.log(e));
+      const polypad = await Polypad.create(document.getElementById('polypad'), {
+        apiKey: 'test',
+        bindKeyboardEvents: true,
+        imageUpload: () => 'test.jpg'
+      });
+      polypad.on('change', e => console.log('change', e));
+      polypad.on('undo', e => e.preventDefault());
+      polypad.on('redo', () => console.log('redo'));
+      polypad.on('viewport', e => console.log('viewport', e));
+      polypad.on('grid', e => console.log('grid', e));
+      polypad.on('options', e => console.log('options', e));
+
+      const b1 = polypad.addCustomButton('settings', '<svg width="24" height="24"></svg>');
+      b1.addEventListener('click', () => polypad.setOptions({altColors: true}));
+
+      const b2 = polypad.addCustomButton('toolbar', 'Test');
+      b2.addEventListener('click', () => polypad.toggleSidebar());
     })();
   </script>
 </body>
